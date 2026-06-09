@@ -22,8 +22,7 @@ def clean_and_detrend_data():
             #Drop NaN (missing) values from time or flux columns
             lc = lc.remove_nans()
             
-            # Apply Savitzky-Golay filter to flatten the light curve
-            # window_length=101 means it looks at a window of 101 data points to smooth out stellar trends
+            #chanding the window length to 31 for short period transits
             flattened_lc = lc.flatten(window_length=101)
             
             #Remove extreme outliers
