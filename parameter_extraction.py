@@ -22,13 +22,9 @@ def compile_final_results():
 
     nasa_truths = {
         "Kepler-10":  {"True_Period": 0.8375,  "True_Ratio": 0.0143},
-        "Kepler-22":  {"True_Period": 289.862, "True_Ratio": 0.0192},
         "Kepler-8":   {"True_Period": 3.5225,  "True_Ratio": 0.0956},
         "WASP-12":    {"True_Period": 1.0914,  "True_Ratio": 0.1174},
-        "HAT-P-7":    {"True_Period": 2.2047,  "True_Ratio": 0.0776},
-        "Kepler-11":  {"True_Period": 10.3040, "True_Ratio": 0.0387},
-        "Kepler-186": {"True_Period": 129.944, "True_Ratio": 0.0211},
-        "Kepler-452": {"True_Period": 384.843, "True_Ratio": 0.0345}
+        "HAT-P-7":    {"True_Period": 2.2047,  "True_Ratio": 0.0776}
     }
     
     df["NASA_True_Period"] = df["Target"].map(lambda x: nasa_truths.get(x, {}).get("True_Period", np.nan))
