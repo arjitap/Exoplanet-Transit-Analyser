@@ -3,12 +3,34 @@ import os
 
 # 26 Kepler mission stars 
 TARGETS = [
-    "Kepler-22", "Kepler-10", "Kepler-11", "Kepler-186", "Kepler-452",
-    "Kepler-62", "Kepler-90", "Kepler-20", "Kepler-8", "Kepler-42",
-    "Kepler-16", "Kepler-37", "Kepler-69", "Kepler-102", "Kepler-138",
-    "Kepler-444", "Kepler-68", "Kepler-23", "Kepler-25", "Kepler-28",
-    "Kepler-33", "Kepler-93", "Kepler-1", "Kepler-2", "Kepler-5", "Kepler-6"
+    "Kepler-10",   
+    "Kepler-8",    
+    "Kepler-1",   
+    "Kepler-2",    
+    "Kepler-5",    
+    "Kepler-6",    
+    "Kepler-42",   
+    "Kepler-90",   
+    "Kepler-68",   
+    "Kepler-93",   
+    "Kepler-102",  
+    "Kepler-23",   
+    "Kepler-25",   
+    "Kepler-28",   
+    "Kepler-33",   
+    "Kepler-11",   
+    "Kepler-37",   
+    "Kepler-444",  
+    "Kepler-20",   
+    "Kepler-17",   
+    "Kepler-41",   
+    "Kepler-43",  
+    "Kepler-44",   
+    "Kepler-45",   
+    "Kepler-46",
+    "Kepler-63",   
 ]
+
 
 def download_all_curves():
     if not os.path.exists("raw_data"):

@@ -22,11 +22,16 @@ def clean_and_detrend_data():
             #Drop NaN (missing) values from time or flux columns
             lc = lc.remove_nans()
             
-            #chanding the window length to 31 for short period transits
-            flattened_lc = lc.flatten(window_length=101)
+            cadence_days = float(np.median(np.diff(lc.time.value)))
+            window_length = int(7.0 / cadence_days)  # 7-day window
+            if window_length % 2 == 0:
+                window_length += 1  # must be odd
+            window_length = max(window_length, 301)  # minimum 101
+            print(f"  Using window_length={window_length}")
+            flattened_lc = lc.flatten(window_length=window_length)
             
             #Remove extreme outliers
-            clean_lc = flattened_lc.remove_outliers(sigma=5)
+            clean_lc = flattened_lc.remove_outliers(sigma_upper=5, sigma_lower=10)
             
             #Save the clean data tonew folder
             file_path = f"cleaned_data/{target_name}_clean.fits"

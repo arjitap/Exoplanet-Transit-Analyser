@@ -2,6 +2,7 @@ import lightkurve as lk
 import matplotlib.pyplot as plt
 import os
 import pandas as pd
+import numpy as np
 
 def run_planet_search():
     # Create a folder to save our final planet discovery plots
@@ -23,17 +24,27 @@ def run_planet_search():
             
             lc = lk.read(f"cleaned_data/{file_name}")
             
-            #Run BLS to scan for periods between 0.5 and 15 days
-            periodogram = lc.to_periodogram(method='bls', minimum_period=0.7, maximum_period=15.0)
+            #Run BLS to scan for periods between 0.5 and 50 days
+           
+            periodogram = lc.to_periodogram(method='bls', minimum_period=0.7, maximum_period=50.0,frequency_factor=0.8)
             
             
             best_period = periodogram.period_at_max_power.value
             best_t0 = periodogram.transit_time_at_max_power.value
             best_duration = periodogram.duration_at_max_power.value
             best_depth = periodogram.depth_at_max_power.value
-            
+            best_power = periodogram.max_power.value 
             print(f"-> Found Period: {best_period:.4f} days")
             print(f"-> Found Depth: {best_depth:.2e}")
+            print(f"-> BLS Power (SDE): {best_power:.2f}")
+
+
+            SDE_THRESHOLD = 5.0
+            if best_power < SDE_THRESHOLD:
+                print(f"-> No significant transit detected (SDE={best_power:.2f} < {SDE_THRESHOLD}), skipping.")
+                continue
+            
+            rp_over_rstar = np.sqrt(abs(best_depth))
 
             #Phase-fold the light curve around the discovered period
             folded_lc = lc.fold(period=best_period, epoch_time=best_t0)
@@ -46,8 +57,8 @@ def run_planet_search():
             ax1.set_title(f"{target_name} - BLS Period Search Spectrum")
             
             # Right Plot: The Phase-Folded Profile
-            folded_lc.scatter(ax=ax2, color='darkred', s=2)
-            ax2.set_xlim(-0.2, 0.2)  # Zoom in closely around the center of the transit
+            half_window = max(0.2, best_duration * 3)
+            ax2.set_xlim(-half_window, half_window)
             ax2.set_title(f"{target_name} - Phase-Folded Transit Profile")
             
             
@@ -62,6 +73,7 @@ def run_planet_search():
                 "Target": target_name,
                 "Period_days": best_period,
                 "Transit_Depth": best_depth,
+                "Rp_over_Rstar": rp_over_rstar,
                 "Duration_days": best_duration
             })
             
