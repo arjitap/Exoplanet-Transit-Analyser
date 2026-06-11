@@ -45,8 +45,8 @@ Summarises overall pipeline performance against the three target thresholds.
 
 ## Results
 
-| Metric | Required | Achieved | Status |
-|--------|----------|----------|--------|
+| Metric | Required | Achieved | 
+|--------|----------|----------|
 | Transit Recovery Rate | ≥ 85% | 100% (26/26) | 
 | Period Error (median) | < 0.1% | 0.069% | 
 | Radius Ratio Rp/R* Error | < 5% | 23.71% | 
